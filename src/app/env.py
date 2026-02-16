@@ -1,5 +1,6 @@
 # env.py
 from dotenv import load_dotenv
+from pydantic import Field
 from pydantic_settings import BaseSettings
 
 load_dotenv(".env")
@@ -11,6 +12,7 @@ class Env(BaseSettings):
     DEBUG: bool = True
     HOST: str = "127.0.0.1"
     PORT: int = 8000
+    DATABASE_URL: str | None = Field(default=None)
     # OMISE_PUBLIC_KEY: str = Field(default=None)
     # OMISE_SECRET_KEY: str = Field(default=None)
     # DISCORD_BOT_TOKEN: str = Field(default=None)

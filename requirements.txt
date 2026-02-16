@@ -2,16 +2,18 @@ fastapi
 uvicorn[standard]==0.23.2
 pydantic
 discord.py
-sqlmodel==0.0.8
+sqlmodel==0.0.14
 python-dotenv==1.0.1
 psycopg2-binary==2.9.9
-python-dotenv
 types-requests
-
+asyncpg
+# GraphQL (Added)
+strawberry-graphql[fastapi]
 omise
 
 # Linters / type checker / formatter
-mypy==1.5.1
+ruff>=0.3.0
+mypy>=1.8.0
 flake8==6.1.0
 black==24.8.0
 isort==5.13.0

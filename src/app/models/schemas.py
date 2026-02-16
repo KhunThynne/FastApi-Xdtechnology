@@ -1,13 +1,5 @@
 from sqlmodel import Field, SQLModel
 
 
-class UserSettings(SQLModel, table=True):
-    id: int = Field(default=None, primary_key=True)
-    user_id: str
-    preferences: str
-
-
-class PurchasedItem(SQLModel, table=True):
-    id: int = Field(default=None, primary_key=True)
-    user_id: str
-    item_json: str
+class UserSettings(SQLModel):
+    id: int | None = Field(default=None, primary_key=True)
