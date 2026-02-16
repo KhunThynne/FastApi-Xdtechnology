@@ -1,7 +1,7 @@
-# FastApi-Xdtechnology 🚀
+# FastApi-Thynne 🚀
 
-FastAPI backend project for XDTechnology.
-ใช้สำหรับทดลอง API + GraphQL + Service ต่าง ๆ
+FastAPI backend project for Thynne.
+API + GraphQL + Service ต่าง ๆ
 
 ## pip install -r requirements.txt
 
@@ -30,10 +30,8 @@ source venv/Scripts/activate (git branch) || venv\Scripts\activate.bat(cmd)
 
 ## Git branch for current develop-thynne
 
-fastapi https://github.com/KhunThynne/FastApi-Xdtechnology.git (fetch)
-fastapi https://github.com/KhunThynne/FastApi-Xdtechnology.git (push)
-black-drops https://github.com/Black-Drops/FastApi-Xdtechnology.git (fetch)
-black-drops https://github.com/Black-Drops/FastApi-Xdtechnology.git (push)
+fastapi https://github.com/KhunThynne/FastApi-Thynne.git (fetch)
+fastapi https://github.com/KhunThynne/FastApi-Thynne.git (push)
 
 <!-- Git bash -->
 

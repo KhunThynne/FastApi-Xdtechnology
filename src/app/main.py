@@ -28,7 +28,7 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     # await client.close()
 
 
-app = FastAPI(title="XDTechnology FastAPI")
+app = FastAPI(title="Thynne FastAPI")
 
 app.include_router(api_router)
 
@@ -36,7 +36,7 @@ app.include_router(api_router)
 @app.get("/")
 @typechecked
 def root() -> dict[str, str]:
-    return {"message": "Welcome to XDTechnology FastAPI"}
+    return {"message": "Welcome to Thynne FastAPI"}
 
 
 if __name__ == "__main__":

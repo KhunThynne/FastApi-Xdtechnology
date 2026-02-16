@@ -1,18 +1,12 @@
 [tool.ruff]
-
 target-version = "py311"
 line-length = 88
-
 [tool.ruff.lint]
-# E = pycodestyle, F = Pyflakes (ตัวแปร undefined), I = isort (จัดกลุ่ม import)
-# B = bugbear, ANN = annotations (บังคับใส่ Type แบบ TS)
 select = ["E", "F", "I", "B", "ANN", "UP"]
-ignore = ["ANN101", "ANN102"] # ไม่บังคับ Type ให้ self และ cls ใน Class
-
+ignore = ["ANN101", "ANN102"]
 [tool.ruff.lint.isort]
 lines-between-types = 1
 combine-as-imports = true
-
 [tool.ruff.format]
 quote-style = "double"
 indent-style = "space"
