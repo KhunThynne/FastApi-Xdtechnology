@@ -1,7 +1,7 @@
 import strawberry
 
-from app.core.db import async_session_maker
-from app.models.user_schema import UserTable, UserType
+from core.db import async_session_maker
+from models.user_schema import UserTable, UserType
 
 
 @strawberry.type

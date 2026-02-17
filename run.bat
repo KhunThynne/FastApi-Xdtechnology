@@ -19,6 +19,6 @@ echo [3/5] Running Mypy Type Checker...
 mypy src/
 
 echo [4/5] Starting FastAPI Server...
-python src\app\main.py
+python src\main.py
 
 pause

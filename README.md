@@ -64,7 +64,7 @@ set PYTHONPATH=%CD%\src  # Windows
 export PYTHONPATH=$PWD/src # Mac/Linux
 
 # Run the Uvicorn server
-python -m src.app.main
+python -m src.main
 ```
 
 The server will start at `http://127.0.0.1:8000`.

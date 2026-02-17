@@ -3,14 +3,14 @@ import strawberry
 from sqlalchemy.sql.selectable import Select
 from sqlmodel import select
 
-from app.models.user_schema import UserTable, UserType  # Import UserTable มาใช้ Query
+from models.user_schema import UserTable, UserType  # Import UserTable มาใช้ Query
 
 
 @strawberry.type
 class UserQuery:
     @strawberry.field
     async def get_users(self, info: strawberry.Info) -> list[UserType]:
-        from app.core.db import async_session_maker
+        from core.db import async_session_maker
 
         async with async_session_maker() as session:
             statement: Select = select(UserTable)
@@ -24,7 +24,7 @@ class UserQuery:
     async def get_user(
         self, info: strawberry.Info, id: int | None = None, username: str | None = None
     ) -> UserType | None:
-        from app.core.db import async_session_maker
+        from core.db import async_session_maker
 
         async with async_session_maker() as session:
             statement: Select = select(UserTable)

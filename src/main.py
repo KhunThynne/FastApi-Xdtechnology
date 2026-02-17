@@ -8,14 +8,14 @@ from typeguard import typechecked
 
 from app.api import api_router
 from app.api.graphql import graphql_app
-from app.env import _env
+from env import _env
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     print("FastAPI is starting up...")
     try:
-        from app.core.db import init_db
+        from core.db import init_db
 
         await init_db()
         print("Database connected and tables created successfully.")
