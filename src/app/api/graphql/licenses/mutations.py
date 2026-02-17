@@ -1,4 +1,5 @@
 from datetime import datetime
+from uuid import UUID
 
 import strawberry
 
@@ -7,18 +8,28 @@ from sqlmodel import select
 
 from core.db import async_session_maker
 from models.license_schema import LicenseTable, LicenseType
+from utils.license import generate_product_key
 
 
 @strawberry.type
 class LicenseMutation:
     @strawberry.mutation
-    async def create_license(self, key: str, product_id: int) -> LicenseType:
+    async def create_license(
+        self,
+        product_id: UUID,
+        key: str | None = None,
+    ) -> LicenseType:
         async with async_session_maker() as session:
-            new_license = LicenseTable(key=key, product_id=product_id)
+            final_key = key if key else generate_product_key()
+
+            new_license = LicenseTable(key=final_key, product_id=product_id)
+
             session.add(new_license)
             await session.commit()
             await session.refresh(new_license)
+
             return LicenseType(
+                id=new_license.id,
                 key=new_license.key,
                 product_id=new_license.product_id,
                 owner_id=new_license.owner_id,

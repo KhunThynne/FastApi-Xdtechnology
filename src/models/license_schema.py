@@ -17,6 +17,8 @@ class LicenseBase:
 
 
 class LicenseTable(LicenseBase, SQLModel, table=True):
+    __tablename__ = "licenses"
+    id: UUID | None = Field(default=None, primary_key=True)
     key: str = Field(primary_key=True)
     product_id: int = Field(foreign_key="producttable.id")
     owner_id: UUID | None = Field(
@@ -27,4 +29,4 @@ class LicenseTable(LicenseBase, SQLModel, table=True):
 @strawberry.type
 @dataclass
 class LicenseType(LicenseBase):
-    pass
+    id: UUID | None = None

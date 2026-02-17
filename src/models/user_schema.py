@@ -15,6 +15,7 @@ class UserBase:
 
 
 class UserTable(UserBase, SQLModel, table=True):  # type: ignore
+    __tablename__ = "users"
     id: UUID = Field(
         default_factory=uuid.uuid4, primary_key=True, index=True, nullable=False
     )

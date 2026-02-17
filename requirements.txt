@@ -8,6 +8,7 @@ python-dotenv==1.0.1
 psycopg2-binary==2.9.9
 types-requests
 asyncpg
+alembic
 # GraphQL (Added)
 strawberry-graphql[fastapi]
 omise

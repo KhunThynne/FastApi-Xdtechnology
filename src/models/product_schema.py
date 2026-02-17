@@ -1,6 +1,7 @@
 import enum
 
 from dataclasses import dataclass
+from uuid import UUID
 
 import strawberry
 
@@ -21,11 +22,12 @@ class ProductBase:
 
 
 class ProductTable(ProductBase, SQLModel, table=True):
-    id: int | None = Field(default=None, primary_key=True)
+    __tablename__ = "products"
+    id: UUID | None = Field(default=None, primary_key=True)
     name: str = Field(index=True)
 
 
 @strawberry.type
 @dataclass
 class ProductType(ProductBase):
-    id: int
+    id: UUID
