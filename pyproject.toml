@@ -1,6 +1,6 @@
 [project]
 name = "fastapi-thynne"
-version = "0.1.1"
+version = "0.1.2"
 description = "FastAPI backend project for Thynne"
 requires-python = ">=3.12"
 
@@ -26,7 +26,7 @@ explicit_package_bases = true
 namespace_packages = true
 
 [tool.bump_my_version]
-current_version = "0.1.1"
+current_version = "0.1.2"
 commit = true
 tag = true
 tag_name = "v{new_version}"
