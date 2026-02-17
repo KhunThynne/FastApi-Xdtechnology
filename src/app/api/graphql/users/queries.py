@@ -1,5 +1,6 @@
 import strawberry
 
+from sqlalchemy.sql.selectable import Select
 from sqlmodel import select
 
 from app.models.user_schema import UserTable, UserType  # Import UserTable มาใช้ Query
@@ -12,7 +13,7 @@ class UserQuery:
         from app.core.db import async_session_maker
 
         async with async_session_maker() as session:
-            statement = select(UserTable)
+            statement: Select = select(UserTable)
             result = await session.execute(statement)
             users_db = result.scalars().all()
             return [
@@ -26,7 +27,7 @@ class UserQuery:
         from app.core.db import async_session_maker
 
         async with async_session_maker() as session:
-            statement = select(UserTable)
+            statement: Select = select(UserTable)
 
             if id is not None:
                 statement = statement.where(UserTable.id == id)  #
