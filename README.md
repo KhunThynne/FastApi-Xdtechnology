@@ -19,7 +19,7 @@ FastAPI backend project for Thynne, incorporating API, GraphQL, and various serv
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/KhunThynne/FastApi-Thynne.git
+git clone https://github.com/KhunThynne/fastapi-thynne.git
 cd FastApi-Thynne
 ```
 
