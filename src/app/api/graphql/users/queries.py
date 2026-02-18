@@ -3,7 +3,7 @@ import strawberry
 from sqlalchemy.sql.selectable import Select
 from sqlmodel import select
 
-from models.user_schema import UserTable, UserType
+from models.user_schema import UserTable, UserType  # Import UserTable มาใช้ Query
 
 
 @strawberry.type
@@ -16,9 +16,7 @@ class UserQuery:
             statement: Select = select(UserTable)
             result = await session.execute(statement)
             users_db = result.scalars().all()
-            return [
-                UserType(id=u.id, username=u.username, email=u.email) for u in users_db
-            ]
+            return [UserType.from_pydantic(u) for u in users_db]
 
     @strawberry.field
     async def get_user(
@@ -40,5 +38,5 @@ class UserQuery:
             user = result.scalars().first()
 
             if user:
-                return UserType(id=user.id, username=user.username, email=user.email)
+                return UserType.from_pydantic(user)
             return None

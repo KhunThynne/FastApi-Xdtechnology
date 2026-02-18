@@ -15,11 +15,7 @@ class UserMutation:
 
             await session.refresh(new_user)
 
-            return UserType(
-                id=new_user.id,
-                username=new_user.username,
-                email=new_user.email,
-            )
+            return UserType.from_pydantic(new_user)
 
     @strawberry.mutation
     async def delete_user(self, id: int) -> int:
