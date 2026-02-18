@@ -15,16 +15,7 @@ class ProductQuery:
             statement: Select = select(ProductTable)
             result = await session.execute(statement)
             products = result.scalars().all()
-            return [
-                ProductType(
-                    id=p.id,
-                    name=p.name,
-                    type=p.type,
-                    duration_days=p.duration_days,
-                )
-                for p in products
-                if p.id is not None
-            ]
+            return [ProductType.from_pydantic(p) for p in products if p.id is not None]
 
     @strawberry.field
     async def get_product(self, id: int) -> ProductType | None:
@@ -33,10 +24,5 @@ class ProductQuery:
             result = await session.execute(statement)
             product = result.scalars().first()
             if product and product.id is not None:
-                return ProductType(
-                    id=product.id,
-                    name=product.name,
-                    type=product.type,
-                    duration_days=product.duration_days,
-                )
+                return ProductType.from_pydantic(product)
             return None

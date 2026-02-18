@@ -1,14 +1,14 @@
-from dataclasses import dataclass
 from datetime import datetime
-from uuid import UUID
+from uuid import UUID, uuid4
 
 import strawberry
 
 from sqlmodel import Field, SQLModel
 
+from type import StrawberryPydanticBase
 
-@dataclass
-class LicenseBase:
+
+class LicenseBase(SQLModel):
     key: str
     product_id: UUID
     owner_id: UUID | None = None
@@ -16,15 +16,11 @@ class LicenseBase:
     expired_at: datetime | None = None
 
 
-class LicenseTable(LicenseBase, SQLModel, table=True):
+class LicenseTable(LicenseBase, table=True):
     __tablename__ = "licenses"
-    id: UUID | None = Field(default=None, primary_key=True)
-    key: str = Field(primary_key=True)
-    product_id: UUID = Field(foreign_key="products.id")
-    owner_id: UUID | None = Field(default=None, foreign_key="users.id", nullable=True)
+    id: UUID = Field(default_factory=uuid4, primary_key=True)
 
 
-@strawberry.type
-@dataclass
-class LicenseType(LicenseBase):
-    id: UUID | None = None
+@strawberry.experimental.pydantic.type(model=LicenseBase, all_fields=True)
+class LicenseType(StrawberryPydanticBase):
+    id: UUID

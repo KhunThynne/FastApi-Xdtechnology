@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import UTC, datetime
 from uuid import UUID
 
 import strawberry
@@ -28,14 +28,7 @@ class LicenseMutation:
             await session.commit()
             await session.refresh(new_license)
 
-            return LicenseType(
-                id=new_license.id,
-                key=new_license.key,
-                product_id=new_license.product_id,
-                owner_id=new_license.owner_id,
-                activated_at=new_license.activated_at,
-                expired_at=new_license.expired_at,
-            )
+            return LicenseType.from_pydantic(new_license)
 
     @strawberry.mutation
     async def revoke_license(self, key: str) -> bool:
@@ -43,11 +36,12 @@ class LicenseMutation:
             statement: Select = select(LicenseTable).where(LicenseTable.key == key)
             result = await session.execute(statement)
             license_obj = result.scalars().first()
+
             if license_obj:
-                # Set expired_at to now to maximize revocability or just delete?
-                # Usually revoke means expire immediately.
-                license_obj.expired_at = datetime.utcnow()
+                license_obj.expired_at = datetime.now(UTC)
+
                 session.add(license_obj)
                 await session.commit()
                 return True
+
             return False

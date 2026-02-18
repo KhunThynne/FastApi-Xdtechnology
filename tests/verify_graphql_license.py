@@ -5,7 +5,7 @@ import sys
 # Add src to sys.path
 sys.path.append(os.path.join(os.getcwd(), "src"))
 
-from api.graphql import schema
+from app.api.graphql import schema
 
 async def verify_graphql() -> None:
     print("Verifying GraphQL License Schema...")
@@ -13,7 +13,7 @@ async def verify_graphql() -> None:
     # 1. Create Product
     mutation_create_product = """
         mutation {
-            createProduct(name: "GQL Product", type: "Pro", durationDays: 365) {
+            createProduct(name: "GQL Product", type: PRO, durationDays: 365) {
                 id
                 name
                 type
@@ -82,7 +82,7 @@ async def verify_graphql() -> None:
 
 
 if __name__ == "__main__":
-    from app.core.db import init_db
+    from core.db import init_db
     
     async def main():
         # Initialize DB to ensure tables exist

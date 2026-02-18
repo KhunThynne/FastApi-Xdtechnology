@@ -1,12 +1,13 @@
 import enum
 import uuid
 
-from dataclasses import dataclass
 from uuid import UUID
 
 import strawberry
 
 from sqlmodel import Field, SQLModel
+
+from type import StrawberryPydanticBase
 
 
 class ProductTypeEnum(enum.StrEnum):
@@ -15,14 +16,13 @@ class ProductTypeEnum(enum.StrEnum):
     FREE = "free"
 
 
-@dataclass
-class ProductBase:
+class ProductBase(SQLModel):
     name: str
     type: ProductTypeEnum  # e.g., "Pro", "Lite"
     duration_days: int
 
 
-class ProductTable(ProductBase, SQLModel, table=True):
+class ProductTable(ProductBase, table=True):
     __tablename__ = "products"
     id: UUID = Field(
         default_factory=uuid.uuid4, primary_key=True, index=True, nullable=False
@@ -30,7 +30,6 @@ class ProductTable(ProductBase, SQLModel, table=True):
     name: str = Field(index=True)
 
 
-@strawberry.type
-@dataclass
-class ProductType(ProductBase):
+@strawberry.experimental.pydantic.type(model=ProductBase, all_fields=True)
+class ProductType(StrawberryPydanticBase):
     id: UUID

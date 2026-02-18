@@ -15,29 +15,15 @@ class LicenseQuery:
             statement: Select = select(LicenseTable)
             result = await session.execute(statement)
             licenses = result.scalars().all()
-            return [
-                LicenseType(
-                    key=l.key,
-                    product_id=l.product_id,
-                    owner_id=l.owner_id,
-                    activated_at=l.activated_at,
-                    expired_at=l.expired_at,
-                )
-                for l in licenses  # noqa: E741
-            ]
+            print(licenses[0])
+            return [LicenseType.from_pydantic(license) for license in licenses]
 
     @strawberry.field
     async def get_license(self, key: str) -> LicenseType | None:
         async with async_session_maker() as session:
             statement: Select = select(LicenseTable).where(LicenseTable.key == key)
             result = await session.execute(statement)
-            license_obj = result.scalars().first()
+            license_obj: LicenseTable | None = result.scalars().first()
             if license_obj:
-                return LicenseType(
-                    key=license_obj.key,
-                    product_id=license_obj.product_id,
-                    owner_id=license_obj.owner_id,
-                    activated_at=license_obj.activated_at,
-                    expired_at=license_obj.expired_at,
-                )
+                return LicenseType.from_pydantic(license_obj)
             return None

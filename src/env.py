@@ -13,10 +13,7 @@ class Env(BaseSettings):
     HOST: str = "127.0.0.1"
     PORT: int = 8000
     DATABASE_URL: str = Field(default="")
-    # OMISE_PUBLIC_KEY: str = Field(default=None)
-    # OMISE_SECRET_KEY: str = Field(default=None)
-    # DISCORD_BOT_TOKEN: str = Field(default=None)
-    # DISCORD_GUILD_ID: int = Field(default=None)
+    GRAPHQL_ACCESS_TOKEN: str = Field(default="development_token")
 
     class Config:
         pass

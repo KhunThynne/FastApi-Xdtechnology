@@ -26,12 +26,7 @@ class ProductMutation:
                 if new_product.id is None:
                     raise Exception("Failed to create product")
 
-                return ProductType(
-                    id=new_product.id,
-                    name=new_product.name,
-                    type=new_product.type,
-                    duration_days=new_product.duration_days,
-                )
+                return ProductType.from_pydantic(new_product)
         except Exception as e:
             import traceback
 
