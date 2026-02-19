@@ -7,7 +7,8 @@ from sqlalchemy.sql.selectable import Select
 from sqlmodel import select
 
 from core.db import async_session_maker
-from models.license_schema import LicenseTable, LicenseType
+from models.licenses_schema import LicensesTable, LicensesType
+from repository.licenses_repo import LicensesRepository
 from utils.license import generate_product_key
 
 
@@ -18,22 +19,31 @@ class LicenseMutation:
         self,
         product_id: UUID,
         key: str | None = None,
-    ) -> LicenseType:
+    ) -> LicensesType:
         async with async_session_maker() as session:
             final_key = key if key else generate_product_key()
 
-            new_license = LicenseTable(key=final_key, product_id=product_id)
+            new_license = LicensesTable(key=final_key, product_id=product_id)
 
-            session.add(new_license)
-            await session.commit()
-            await session.refresh(new_license)
+            repo = LicensesRepository(session)
+            await repo.add(new_license)
+            return LicensesType.from_pydantic(new_license)
 
-            return LicenseType.from_pydantic(new_license)
+    @strawberry.mutation
+    async def delete_license(self, id: UUID) -> bool:
+        async with async_session_maker() as session:
+            repo = LicensesRepository(session)
+            license_obj = await repo.get_by_id(id)
+
+            if license_obj:
+                return await repo.delete(license_obj)
+
+            return False
 
     @strawberry.mutation
     async def revoke_license(self, key: str) -> bool:
         async with async_session_maker() as session:
-            statement: Select = select(LicenseTable).where(LicenseTable.key == key)
+            statement: Select = select(LicensesTable).where(LicensesTable.key == key)
             result = await session.execute(statement)
             license_obj = result.scalars().first()
 

@@ -8,8 +8,8 @@ from sqlalchemy.sql.selectable import Select
 from sqlmodel import select
 
 from core.db import async_session_maker
-from models.license_schema import LicenseTable
-from models.product_schema import ProductTable
+from models.licenses_schema import LicensesTable
+from models.products_schema import ProductsTable
 
 router = APIRouter(prefix="/license", tags=["License"])
 
@@ -35,9 +35,9 @@ class LicenseValidateResponse(BaseModel):
 @router.post("/validate", response_model=LicenseValidateResponse)
 async def validate_license(payload: LicenseValidateRequest) -> LicenseValidateResponse:
     async with async_session_maker() as session:
-        statement: Select = select(LicenseTable, ProductTable).where(
-            LicenseTable.key == payload.product_key,
-            LicenseTable.product_id == ProductTable.id,
+        statement: Select = select(LicensesTable, ProductsTable).where(
+            LicensesTable.key == payload.product_key,
+            LicensesTable.product_id == ProductsTable.id,
         )
         result = await session.execute(statement)
         license_data = result.first()

@@ -10,6 +10,7 @@ from env import _env
 security = HTTPBearer(auto_error=False)
 STATIC_TOKEN = _env.GRAPHQL_ACCESS_TOKEN
 
+
 async def get_current_user(
     credentials: Annotated[HTTPAuthorizationCredentials, Security(security)],
 ) -> dict:
@@ -18,11 +19,7 @@ async def get_current_user(
     if not STATIC_TOKEN:
         return {"username": "admin", "role": "superuser", "mode": "insecure_bypass"}
     if credentials is None:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token is required",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
+        return None
     if credentials.credentials != STATIC_TOKEN:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

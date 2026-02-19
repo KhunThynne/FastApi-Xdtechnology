@@ -1,6 +1,4 @@
-from typing import TYPE_CHECKING, Any, Self, TypeVar
-
-T = TypeVar("T")
+from typing import TYPE_CHECKING, Any, Self
 
 
 class StrawberryPydanticBase:

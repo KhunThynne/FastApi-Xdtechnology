@@ -5,10 +5,10 @@ import strawberry
 
 from sqlmodel import Field, SQLModel
 
-from type import StrawberryPydanticBase
+from .shared import StrawberryPydanticBase
 
 
-class LicenseBase(SQLModel):
+class LicensesBase(SQLModel):
     key: str
     product_id: UUID
     owner_id: UUID | None = None
@@ -16,11 +16,13 @@ class LicenseBase(SQLModel):
     expired_at: datetime | None = None
 
 
-class LicenseTable(LicenseBase, table=True):
+class LicensesTable(LicensesBase, table=True):
     __tablename__ = "licenses"
     id: UUID = Field(default_factory=uuid4, primary_key=True)
+    product_id: UUID = Field(foreign_key="products.id", unique=True, nullable=False)
+    key: str = Field(nullable=False, unique=True)
 
 
-@strawberry.experimental.pydantic.type(model=LicenseBase, all_fields=True)
-class LicenseType(StrawberryPydanticBase):
+@strawberry.experimental.pydantic.type(model=LicensesBase, all_fields=True)
+class LicensesType(StrawberryPydanticBase):
     id: UUID

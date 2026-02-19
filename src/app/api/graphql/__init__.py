@@ -4,25 +4,28 @@ from strawberry.fastapi import GraphQLRouter
 
 # Licenses
 from app.api.graphql.licenses.mutations import LicenseMutation
-from app.api.graphql.licenses.queries import LicenseQuery
+from app.api.graphql.licenses.queries import LicensesQuery
 
 # Products
-from app.api.graphql.products.mutations import ProductMutation
-from app.api.graphql.products.queries import ProductQuery
+from app.api.graphql.products.mutations import ProductsMutation
+from app.api.graphql.products.queries import ProductsQuery
 from app.api.graphql.security import get_context
 
+# Test
+from app.api.graphql.test import TestQuery
+
 # Users
-from app.api.graphql.users.mutations import UserMutation
-from app.api.graphql.users.queries import UserQuery
+from app.api.graphql.users.mutations import UsersMutation
+from app.api.graphql.users.queries import UsersQuery
 
 
 @strawberry.type
-class Query(UserQuery, ProductQuery, LicenseQuery):
+class Query(UsersQuery, ProductsQuery, LicensesQuery, TestQuery):
     pass
 
 
 @strawberry.type
-class Mutation(UserMutation, ProductMutation, LicenseMutation):
+class Mutation(UsersMutation, ProductsMutation, LicenseMutation):
     pass
 
 

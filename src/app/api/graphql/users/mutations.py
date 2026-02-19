@@ -1,31 +1,27 @@
+from uuid import UUID
+
 import strawberry
 
 from core.db import async_session_maker
-from models.user_schema import UserTable, UserType
+from models.users_schema import UsersTable, UsersType
+from repository.users_repo import UserRepository
 
 
 @strawberry.type
-class UserMutation:
+class UsersMutation:
     @strawberry.mutation
-    async def create_user(self, username: str, email: str) -> UserType:
+    async def create_user(self, username: str, email: str) -> UsersType:
         async with async_session_maker() as session:
-            new_user = UserTable(username=username, email=email)
-            session.add(new_user)
-            await session.commit()
-
-            await session.refresh(new_user)
-
-            return UserType.from_pydantic(new_user)
+            user_repo = UserRepository(session)
+            new_user = UsersTable(username=username, email=email)
+            await user_repo.add(new_user)
+            return UsersType.from_pydantic(new_user)
 
     @strawberry.mutation
-    async def delete_user(self, id: int) -> int:
+    async def delete_user(self, id: UUID) -> UUID:
         async with async_session_maker() as session:
-            user = await session.get(UserTable, id)
-            if user:
-                await session.delete(user)
-                await session.commit()
-
-                if user.id is not None:
-                    return user.id
-
+            repo = UserRepository(session)
+            deleted_id = await repo.get_and_delete(id)
+            if deleted_id:
+                return deleted_id
             raise Exception(f"User with id {id} not found")

@@ -6,15 +6,15 @@ import strawberry
 
 from sqlmodel import Field, SQLModel
 
-from type import StrawberryPydanticBase
+from .shared import StrawberryPydanticBase
 
 
-class UserBase(SQLModel):
+class UsersBase(SQLModel):
     username: str
     email: str
 
 
-class UserTable(UserBase, table=True):
+class UsersTable(UsersBase, table=True):
     __tablename__ = "users"
     id: UUID = Field(
         default_factory=uuid.uuid4, primary_key=True, index=True, nullable=False
@@ -23,6 +23,6 @@ class UserTable(UserBase, table=True):
     email: str = Field(unique=True, index=True)
 
 
-@strawberry.experimental.pydantic.type(model=UserBase, all_fields=True)
-class UserType(StrawberryPydanticBase):
+@strawberry.experimental.pydantic.type(model=UsersBase, all_fields=True)
+class UsersType(StrawberryPydanticBase):
     id: UUID

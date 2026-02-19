@@ -57,6 +57,13 @@ run.bat
 ```
 
 **Manually:**
+alembic init migrations
+
+# สั่งให้ Alembic ตรวจความต่างและสร้างไฟล์แก้ DB
+alembic revision --autogenerate -m "added unique to license key"
+
+# สั่งให้แก้ DB จริงๆ
+alembic upgrade head
 
 ```bash
 ./run.bat
